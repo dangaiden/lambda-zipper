@@ -1,0 +1,23 @@
+curl -s -X POST -d '{"Name":"Pikachu"},{"Name":"Charmander"},{"Name":"Cyndaquil"}' \
+ -H "Content-Type: application/json" \
+ https://276r3iwl1d.execute-api.us-east-2.amazonaws.com/test
+
+
+## Example with file
+curl -s -X POST -d "@pokemon.json"\
+ -H "Content-Type: application/json" \
+ https://2mbfznw9f7.execute-api.us-east-2.amazonaws.com/
+
+
+[x] - Send correct JSON data to API
+[x] - API triggers Lambda 
+[] - Lambda:
+    [x] - Parses JSON data correctly
+    [ ] - Create Stream to Read
+    [x] - s3.getObject to getAllFiles from a bucket
+    [ ] - Link Stream with S3 request (s3.upload)
+    [x] - Open zip and connect it to Stream
+    [ ] - forEach file in objects (s3.getobject): append files
+    [ ] - ????
+    [x] - Closes Zip file
+    [ ] - Generate Random URL
