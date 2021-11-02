@@ -4,7 +4,7 @@ curl -s -X POST -d '{"Name":"Pikachu"},{"Name":"Charmander"},{"Name":"Cyndaquil"
 
 
 ## Example with file
-curl -s -X POST -d "@pokemon.json"\
+curl -s -X POST -d "@images.json"\
  -H "Content-Type: application/json" \
  https://2mbfznw9f7.execute-api.us-east-2.amazonaws.com/
 
