@@ -1,9 +1,15 @@
 {
-	"Pokemon": [{
+	"Images": [{
 			"Name": "cyndaquil.jpg"
 		},
 		{
 			"Name": "tyranno.jpg"
+		},
+		{
+			"Name": "grookey.jpg"
+		},
+		{
+			"Name": "ra.png"
 		}
 	]
 }
