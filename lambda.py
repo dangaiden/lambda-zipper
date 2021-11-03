@@ -81,13 +81,13 @@ def main_handler(event, context):
                 for img in obj:
                     #object = bucket.Object('tiles/10/S/DG/2015/12/7/0/B01.jp2')
                     #img_data = object.get().get('Body').read()
-                    zf.writestr(img.key, img.get()['Body'].read())
+                    zf.writestr(img.key, img.get().get('Body').read())
                     print("------------------------------")
                     print("Print Object summary (X)>>:",img)
                     print("Print key (x.key)>>:", img.key)
                     print("Print key (x.get)>>:", img.get)
                     print("Print key (x.get)Body>>:", img.get()['Body'])
-                    print("Print key (x.get)Body.READ>>:", img.get()['Body'].read())
+                    #print("Print key (x.get)Body.READ>>:", img.get()['Body'].read())
                     print("------------------------------")
             
             # Set ACL for the ZIP as public-read
