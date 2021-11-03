@@ -57,17 +57,19 @@ def main_handler(event, context):
         # Create IO file
         zip_buffer = BytesIO()
 
+        print ("TEST:", summaries)
+        print ("<<TEST2>>:", summaries_all)
         print("Entering in the loop")
         
-        # Pages
-        for page in summaries.page_size(10).pages():
+        #summaries = s3_bucket.objects
+        # For each object inside the objectsCollectionmanager.
+        for obj in summaries.page_size(10).pages():
             print("Inside loop")
-            print("s3.Bucket(bucketName)->:",s3_bucket)
             print("s3.Bucket(bucketObjects->:",summaries)
-            print("Each Page>>:", page)
+            print("Objects inside summaries>>:", obj)
             print("***************************************************")
             
-            ##Destination file 
+            ##Destination file creation.
             zip_file = s3.ObjectSummary(bucketNameDest, archiveNameDest)
             print("zip_file:", zip_file)
             print("Upload files to {}...".format(archiveNameDest))
@@ -75,15 +77,21 @@ def main_handler(event, context):
 
             ## Open Zipfile and append each object,key (file)
             with zipfile.ZipFile(zip_buffer, mode="a",compression=zipfile.ZIP_DEFLATED) as zf:
-                for x in page:
-                    zf.writestr(x.key, x.get()['Body'].read())
+                #Iterate within the ObjectSummary.
+                for img in obj:
+                    #object = bucket.Object('tiles/10/S/DG/2015/12/7/0/B01.jp2')
+                    #img_data = object.get().get('Body').read()
+                    zf.writestr(img.key, img.get()['Body'].read())
                     print("------------------------------")
-                    print("Print Object summary (X)>>:",x)
-                    print("Print key (x.key)>>:", x.key)
-                    print("Print key (x.get)>>:", x.get)
-                    print("Print key (x.get)>>:", x.get()['Body'])
+                    print("Print Object summary (X)>>:",img)
+                    print("Print key (x.key)>>:", img.key)
+                    print("Print key (x.get)>>:", img.get)
+                    print("Print key (x.get)Body>>:", img.get()['Body'])
+                    print("Print key (x.get)Body.READ>>:", img.get()['Body'].read())
                     print("------------------------------")
+            
             # Set ACL for the ZIP as public-read
+            print ("ZIP FILE FINISHED>>>>>", zip_file)
             zip_file.put(Body=zip_buffer.getvalue(), ACL='public-read')
             # for obj in page.objects.filter(Prefix='images/'):
             #     print('{0}:{1}'.format(page.name, obj.key))
