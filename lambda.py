@@ -2,16 +2,22 @@ import json
 from io import BytesIO
 import zipfile
 import boto3
+import random
+import string
 
+## Variables
 s3 = boto3.resource('s3')
-
 bucket_name_src = "tkw-priv"
 bucket_name_dst = "tkw-itgaiden-bucket"
-zip_name_dst = "images_041121.zip"
 
-# An object is a file and any metadata that describes that file.
-s3_bucket = s3.Bucket(bucket_name_src)
-summaries = s3_bucket.objects
+## Some useful functions
+def random_zipname (len):
+    random_string = ""
+    letters_and_digits = string.ascii_lowercase + string.digits
+    for number in range(len):
+        random_string += random.choice(letters_and_digits)
+    random_string += ".zip"
+    return random_string
 
 def count_objects(objects):
     count=0
@@ -25,6 +31,15 @@ def delete_object_if_exists(bucketName, key):
         return
     obj.delete()
 
+
+## Some declared variables
+zip_name_dst = random_zipname(9)
+
+# An object is a file and any metadata that describes that file.
+s3_bucket = s3.Bucket(bucket_name_src)
+summaries = s3_bucket.objects
+
+### Handler starts here
 def main_handler(event, context):
     try:
         print('Lambda starts:')
