@@ -29,10 +29,6 @@ def delete_object_if_exists(bucketName, key):
 def main_handler(event, context):
     try:
         print('Lambda starts:')
-        
-        # bucketNameSource = bucket_name
-        # bucketNameDest = bucket_name_dest
-        # archiveNameDest = archive_name_dest
 
         # Safe to delete
         delete_object_if_exists(bucket_name_dst, zip_name_dst)
@@ -75,11 +71,12 @@ def main_handler(event, context):
             print ("ZIP FILE FINISHED>>>>>", zip_file)
             zip_file.put(Body=zip_buffer.getvalue(), ACL='public-read')
 
-            #s3_client = boto3.client('s3')
-            #url = s3_client.generate_presigned_url(ClientMethod='get_object', Params={'Bucket': bucket_name_dst, 'Key': zip_file}, ExpiresIn=90)
-        #    print ("URL:", url)
+        url = boto3.client('s3').generate_presigned_url(ClientMethod='get_object', Params={'Bucket': bucket_name_dst, 'Key': zip_file.key}, ExpiresIn=90)
+        print ("URL:", url)
+        print ("ZIPFILE_KEY:", zip_file.key)
 
-        return "Download your images at: "+"'https://%s.s3.amazonaws.com/%s'" % (bucket_name_dst, zip_name_dst)
+        #return "Download your images at: "+"'https://%s.s3.amazonaws.com/%s'" % (bucket_name_dst, zip_name_dst)
+        return "Download your ZIP file: >>>>"+ url + " <<<<"
     
     except Exception as err:
         return "Exception :" + str(err)
