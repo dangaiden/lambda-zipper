@@ -9,8 +9,7 @@ bucket_name_src = "tkw-priv"
 bucket_name_dst = "tkw-itgaiden-bucket"
 zip_name_dst = "images_041121.zip"
 
-# An object is a file 
-# and any metadata that describes that file
+# An object is a file and any metadata that describes that file.
 s3_bucket = s3.Bucket(bucket_name_src)
 summaries = s3_bucket.objects
 
@@ -73,8 +72,7 @@ def main_handler(event, context):
 
         url = boto3.client('s3').generate_presigned_url(ClientMethod='get_object', Params={'Bucket': bucket_name_dst, 'Key': zip_file.key}, ExpiresIn=90)
         print ("URL:", url)
-        print ("ZIPFILE_KEY:", zip_file.key)
-
+ 
         #return "Download your images at: "+"'https://%s.s3.amazonaws.com/%s'" % (bucket_name_dst, zip_name_dst)
         return "Download your ZIP file: >>>>"+ url + " <<<<"
     
