@@ -8,7 +8,9 @@ Lambda function to zip files from S3 bucket.
 
 Although in this repository you will only find the lambda function plus the images used (not the deployed resources), this is what I have used in AWS:
 
-- S3 buckets (2): One will completely private with the images and another one will be used for the end-users to download the zipped file with their images.
+- S3 buckets (2): 
+    · tkw-priv (Access defined: Bucket and objects not public): Contains the images that can be used to create the zip file.
+    · tkw-itgaiden-bucke (Access: Objects can be public): Stores the zip files that has been requested by the users.
 - Roles and permissions
 - An API of some type, here I have used a simple HTTP one provided by AWS (API Gateway)
 - Cloudwatch: Important to troubleshoot your own Lambda function.
