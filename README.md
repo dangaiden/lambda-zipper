@@ -10,7 +10,7 @@ This repository is intended to show how a Lambda function can compress files usi
 
 The workflow is the following one: 
 
-![Workflow](img/readme/workflow.png)
+![Workflow](img/readme/diagram.png)
 
 ## Specifics used for Lambda
 
