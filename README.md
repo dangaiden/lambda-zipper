@@ -4,7 +4,7 @@
  The selected files are stored in a bucket and will be zipped to a destination bucket to permit the end user download them. 
 
  The result is a secure link where you can download your images (Pokemon and Yu-gi-oh!) cards, the link expires in 90 seconds.
-# Purpose
+## Purpose
 
 This repository is intended to show how a Lambda function can compress files using in-memory streaming with selected files given by data sent from an API (which has been invoked by a user).
 
@@ -12,12 +12,12 @@ The workflow is the following one:
 
 ![Workflow](img/readme/workflow.png)
 
-# Specifics used for Lambda
+## Specifics used for Lambda
 
 - Runtime: Python 3.7
 - Handler: lambda_function.main_handler
 - Architecture: x86_64
-# Resources needed
+## Resources needed
 
 Although in this repository you will only find the lambda function plus the images used (not the deployed resources in AWS), this is what I have used in AWS:
 
@@ -82,7 +82,7 @@ In that policy is where the permissions are defined, it looks similar to this:
     ]
 }
 ```
-# How-to
+## How-to
 
 All files within the img folder are the ones that can be downloaded from the private S3 bucket.
 
@@ -108,7 +108,7 @@ In case you try to access the link after 90 seconds, something like this will ap
 
 ![Link Expired](img/readme/link_expired.png)
 
-# References used
+## References used
 
 - https://docs.aws.amazon.com/lambda/latest/dg/services-apigateway.html
 - https://dev.to/lineup-ninja/zip-files-on-s3-with-aws-lambda-and-node-1nm1
