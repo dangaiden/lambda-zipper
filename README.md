@@ -1,5 +1,9 @@
 # lambda-zipper
 
+ A lambda function which zip files using in-memory with selected files given by data sent from a user.
+ The selected files are stored in a bucket and will be zipped to a destination bucket to permit the end user download them. 
+
+ The result is a secure link where you can download your images (Pokemon and Yu-gi-oh!) cards, the link expires in 90 seconds.
 # Purpose
 
 This repository is intended to show how a Lambda function can compress files using in-memory streaming with selected files given by data sent from an API (which has been invoked by a user).
@@ -13,9 +17,9 @@ The workflow is the following one:
 - Runtime: Python 3.7
 - Handler: lambda_function.main_handler
 - Architecture: x86_64
-# Resources
+# Resources needed
 
-Although in this repository you will only find the lambda function plus the images used (not the deployed resources), this is what I have used in AWS:
+Although in this repository you will only find the lambda function plus the images used (not the deployed resources in AWS), this is what I have used in AWS:
 
 - S3 buckets (2): 
     - tkw-priv (Access defined: Bucket and objects not public): Contains the images that can be used to create the zip file.
@@ -23,7 +27,7 @@ Although in this repository you will only find the lambda function plus the imag
 - An API of some type, here I have used a simple HTTP one provided by AWS (API Gateway) to not complicate myself more.
 - Cloudwatch: Important to troubleshoot your own Lambda function.
 - IAM configuration:
-The Lambda function uses role (TKW_function-role) which has a Policy attached.
+The Lambda function uses a role (TKW_function-role) which has a Policy attached.
 In that policy is where the permissions are defined, it looks similar to this:
 
 ```
@@ -106,3 +110,8 @@ In case you try to access the link after 90 seconds, something like this will ap
 
 # References used
 
+- https://docs.aws.amazon.com/lambda/latest/dg/services-apigateway.html
+- https://dev.to/lineup-ninja/zip-files-on-s3-with-aws-lambda-and-node-1nm1
+- https://medium.com/dev-bits/ultimate-guide-for-working-with-i-o-streams-and-zip-archives-in-python-3-6f3cf96dca50
+- https://boto3.amazonaws.com/v1/documentation/api/latest/guide/collections.html
+- https://docs.python.org/3.7/library/zipfile.html#zipfile.ZipFile.writestr
