@@ -1,9 +1,10 @@
 # lambda-zipper
 
 # Purpose
-Lambda function to zip files from S3 bucket.
 
-# Specifics for the lambda
+This repository is intended to show how a Lambda function can read 
+
+# Specifics used for Lambda
 
 - Runtime: Python 3.7
 - Handler: lambda_function.main_handler
@@ -13,8 +14,8 @@ Lambda function to zip files from S3 bucket.
 Although in this repository you will only find the lambda function plus the images used (not the deployed resources), this is what I have used in AWS:
 
 - S3 buckets (2): 
-    · tkw-priv (Access defined: Bucket and objects not public): Contains the images that can be used to create the zip file.
-    · tkw-itgaiden-bucke (Access: Objects can be public): Stores the zip files that has been requested by the users.
+    - tkw-priv (Access defined: Bucket and objects not public): Contains the images that can be used to create the zip file.
+    - tkw-itgaiden-bucket (Access: Objects can be public): Stores the zip files that has been requested by the users.
 - An API of some type, here I have used a simple HTTP one provided by AWS (API Gateway) to not complicate myself more.
 - Cloudwatch: Important to troubleshoot your own Lambda function.
 - IAM configuration:
