@@ -32,7 +32,7 @@ def delete_object_if_exists(bucketName, key):
     obj.delete()
 
 ## Some declared variables
-# Cratea a random name for zip file.
+# Create a random name for zip file.
 zip_name_dst = random_zipname(9)
 
 # An object is a file and any metadata that describes that file.
@@ -48,28 +48,26 @@ def main_handler(event, context):
         delete_object_if_exists(bucket_name_dst, zip_name_dst)
         print('Target zip:', bucket_name_dst + '/' + zip_name_dst)
 
-         # Get number of objects from bucket
+        # Get number of objects from bucket
         num_objects = count_objects(summaries)
         print("Source bucket files count:", num_objects)
 
-        # Create IO file
+        # Initialize the io
         zip_buffer = BytesIO()
         
         # Gather the content from the body and parse it (JSON)
         body = (event['body'])
         dataDic = json.loads(body)
         
-        # Create zipfile with the data content and the object metadata stored by Amazon S3
-        zip_file = s3.ObjectSummary(bucket_name_dst, zip_name_dst) #########################
-        ########################### TO CHECK
+        # Declare zipfile with the data content and the object metadata stored by Amazon S3
+        zip_file = s3.Object(bucket_name_dst, zip_name_dst) 
 
         # Loop to iterate within the JSON file we received from "event" and was parsed.
-        # We will gather each image and append it to a zipfile.
+        # We will gather each image and append it to a zipfile using IO (in-memory streaming).
         for item in dataDic['Images']:
             # Gather the file name (filtering by "Name")
             imgName = item['Name']
            
-            print("zip_file:", zip_file)
             print("Uploading files to ", zip_name_dst)
             
             # Here we gather the object (file) from the source bucket (the private one)
@@ -81,18 +79,19 @@ def main_handler(event, context):
             with zipfile.ZipFile(zip_buffer, mode="a",compression=zipfile.ZIP_DEFLATED) as zf:
                 # write image name and content within the archive.
                 zf.writestr(imgName, content)
-                print("File added to the zip (ZipInfo)>>:",imgName)
-            
-            # Set ACL for the ZIP as public-read
-            print ("ZIP FILE FINISHED>>>>>", zip_file)
-            zip_file.put(Body=zip_buffer.getvalue(), ACL='public-read')
+                print("File added to the zip (ZipInfo):", imgName)
 
-        # Outside the loop, we generate a presigned url with 90 secs of expiration and referencing the destination file (zipfile)
+        ## Out of the loop.
+        # Set ACL for the ZIP as public-read
+        print ("Images were successfully zipped in the file:", zip_file)
+        zip_file.put(Body=zip_buffer.getvalue(), ACL='public-read')
+
+        # We generate a presigned url with 90 secs of expiration and referencing the destination file (zipfile)
         url = boto3.client('s3').generate_presigned_url(ClientMethod='get_object', Params={'Bucket': bucket_name_dst, 'Key': zip_file.key}, ExpiresIn=90)
         print ("URL:", url)
 
         # This will be the output if there are no errors.
-        return "Download your ZIP file: >>>>"+ url + " <<<<"
+        return "Download your ZIP file (expires in 90s): "+ url + " "
     
     except Exception as err:
         return "Exception :" + str(err)
